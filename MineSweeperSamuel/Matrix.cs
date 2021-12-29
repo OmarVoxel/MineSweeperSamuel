@@ -31,5 +31,10 @@
         
         public Cell At(Coordinate coordinate) 
             => _matrix[coordinate.X, coordinate.Y];
+
+        public void SetMines(Coordinate coordinate) 
+            => _matrix[coordinate.X, coordinate.Y] = new Cell('*');
+        
+        
     }
 }
