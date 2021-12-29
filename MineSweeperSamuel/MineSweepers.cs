@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MineSweeperSamuel
 {
     public class MineSweepers
     {
         private readonly Matrix _matrix;
+        
 
         public MineSweepers(Matrix matrix)
         {
@@ -19,12 +22,38 @@ namespace MineSweeperSamuel
             {
                 for (int y = 0; y < _matrix.Height; y++)
                 {
-                    matrixString.Append(_matrix.At(new Coordinate(x,y)).Value);
+                    if (_matrix.At(new(x, y)).Value == '*')
+                        matrixString.Append('.');
+                    else
+                        matrixString.Append(_matrix.At(new Coordinate(x,y)).Value);
                 }
                 matrixString.Append('\n');
             }
             
             return matrixString.Remove(matrixString.Length-1,1).ToString();
+        }
+
+        public void Open(Coordinate coord)
+        {
+            int countNeighbors = CountNeighbors(coord);
+            _matrix.ChangeValue(coord, countNeighbors);
+        }
+
+        private int CountNeighbors(Coordinate coord)
+        {
+            List<Coordinate> coordinates = new List<Coordinate>()
+            {
+                new Coordinate(coord.X -1 , coord.Y -1),
+                new Coordinate(coord.X, coord.Y -1 ),
+                new Coordinate(coord.X+1, coord.Y-1),
+                new Coordinate(coord.X+1, coord.Y),
+                new Coordinate(coord.X +1, coord.Y +1),
+                new Coordinate(coord.X, coord.Y + 1),
+                new Coordinate(coord.X -1 , coord.Y +1),
+                new Coordinate(coord.X -1, coord.Y)
+            };
+
+            return coordinates.Count(coord => _matrix.At(coord).Value == '*');
         }
     }
 }

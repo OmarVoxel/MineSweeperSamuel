@@ -2,7 +2,7 @@
 {
     public struct Cell
     {
-        public object Value { get; }
+        public char Value { get; }
         public Cell(char value) => Value = value;
     }
 }

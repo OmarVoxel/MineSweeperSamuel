@@ -43,5 +43,7 @@ namespace MineSweeperSamuel
             => string.Concat(_matrix.OfType<Cell>().Select(c => c.Value));
         public override int GetHashCode()
             => CellAsString().GetHashCode();
+        public void ChangeValue(Coordinate coord, int countNeighbors) 
+            => _matrix[coord.X, coord.Y] = new Cell(char.Parse(countNeighbors.ToString()));
     }
 }
