@@ -38,5 +38,16 @@ namespace MineSweeper.Tests
             
             mineSweeper.Print().Should().Be("...\n.2.\n...");
         }
+        
+        [Fact]
+        public void MineSweeperCantExceedFromBones()
+        {
+            Matrix matrix = new Matrix(3,3);
+
+            MineSweepers mineSweeper = new(matrix);
+            mineSweeper.Open(new(0, 0));
+            
+            mineSweeper.Print().Should().Be("0..\n...\n...");
+        }
     }
 }

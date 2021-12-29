@@ -53,7 +53,12 @@ namespace MineSweeperSamuel
                 new Coordinate(coord.X -1, coord.Y)
             };
 
-            return coordinates.Count(coord => _matrix.At(coord).Value == '*');
+            return coordinates.Count(coord 
+                => IsValid(coord) && _matrix.At(coord).Value == '*');
         }
+
+        private bool IsValid(Coordinate coord)
+            => 0 <= coord.X && coord.X < _matrix.Width && 
+               0 <= coord.Y && coord.Y <_matrix.Height;
     }
 }
