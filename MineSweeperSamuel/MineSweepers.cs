@@ -15,19 +15,27 @@ namespace MineSweeperSamuel
         }
 
         public bool HasLose { get; private set; }
+        public bool HasWin { get; private set; }
 
         public string Print()
         {
             StringBuilder matrixString = new();
-
+            
             for (int x = 0; x < _matrix.Width; x++)
             {
                 for (int y = 0; y < _matrix.Height; y++)
                 {
-                    if (_matrix.At(new(x, y)).Value == '*' && !HasLose)
-                        matrixString.Append('.');
-                    else
+                    if (HasWin)
+                    {
                         matrixString.Append(_matrix.At(new Coordinate(x,y)).Value);
+                    }
+                    else
+                    {
+                        if (_matrix.At(new(x, y)).Value == '*' && !HasLose)
+                            matrixString.Append('.');
+                        else
+                            matrixString.Append(_matrix.At(new Coordinate(x,y)).Value);
+                    }
                 }
                 matrixString.Append('\n');
             }
@@ -45,9 +53,15 @@ namespace MineSweeperSamuel
             {
                 int countNeighbors = CountNeighbors(coord);
                 _matrix.ChangeValue(coord, countNeighbors);
+                HasWin = HasWinner();
             }
         }
 
+        private bool HasWinner()
+        {
+            return _matrix.CountDots() <= 0;
+        }
+        
         private int CountNeighbors(Coordinate coord)
         {
             List<Coordinate> coordinates = new List<Coordinate>()

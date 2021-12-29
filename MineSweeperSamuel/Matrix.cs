@@ -45,5 +45,10 @@ namespace MineSweeperSamuel
             => CellAsString().GetHashCode();
         public void ChangeValue(Coordinate coord, int countNeighbors) 
             => _matrix[coord.X, coord.Y] = new Cell(char.Parse(countNeighbors.ToString()));
+
+        public int CountDots()
+        {
+            return _matrix.OfType<Cell>().Count(x => x.Value == '.');
+        }
     }
 }
