@@ -14,6 +14,8 @@ namespace MineSweeperSamuel
             _matrix = matrix;
         }
 
+        public bool HasLose { get; private set; }
+
         public string Print()
         {
             StringBuilder matrixString = new();
@@ -22,7 +24,7 @@ namespace MineSweeperSamuel
             {
                 for (int y = 0; y < _matrix.Height; y++)
                 {
-                    if (_matrix.At(new(x, y)).Value == '*')
+                    if (_matrix.At(new(x, y)).Value == '*' && !HasLose)
                         matrixString.Append('.');
                     else
                         matrixString.Append(_matrix.At(new Coordinate(x,y)).Value);
@@ -35,8 +37,15 @@ namespace MineSweeperSamuel
 
         public void Open(Coordinate coord)
         {
-            int countNeighbors = CountNeighbors(coord);
-            _matrix.ChangeValue(coord, countNeighbors);
+            if (_matrix.At((coord)).Value == '*')
+            {
+                HasLose = true;
+            }
+            else
+            {
+                int countNeighbors = CountNeighbors(coord);
+                _matrix.ChangeValue(coord, countNeighbors);
+            }
         }
 
         private int CountNeighbors(Coordinate coord)

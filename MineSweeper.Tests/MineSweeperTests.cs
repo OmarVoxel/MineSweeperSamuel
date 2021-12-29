@@ -49,5 +49,36 @@ namespace MineSweeper.Tests
             
             mineSweeper.Print().Should().Be("0..\n...\n...");
         }
+        
+        [Fact]
+        public void MineSweeperWillEndWhenFallsInAnAsterisk()
+        {
+            Matrix matrix = new Matrix(3,3);
+
+            MineSweepers mineSweeper = new(matrix);
+            matrix.SetMines(new(0,0));
+            matrix.SetMines(new(1,1));
+            
+            mineSweeper.Open(new(0, 0));
+            
+            mineSweeper.HasLose.Should().Be(true);
+            mineSweeper.Print().Should().Be("*..\n.*.\n...");
+        }
+
+        [Fact]
+        public void MineSweeperWillEndWhenFallsInAnAsteriskForSecondTime()
+        {
+            Matrix matrix = new Matrix(3,3);
+
+            MineSweepers mineSweeper = new(matrix);
+            matrix.SetMines(new(0,0));
+            matrix.SetMines(new(1,1));
+            
+            mineSweeper.Open(new(1, 0));
+            mineSweeper.Open(new(0, 0));
+            
+            mineSweeper.HasLose.Should().Be(true);
+            mineSweeper.Print().Should().Be("*..\n2*.\n...");
+        }
     }
 }
