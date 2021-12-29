@@ -1,4 +1,6 @@
-﻿namespace MineSweeperSamuel
+﻿using System.Linq;
+
+namespace MineSweeperSamuel
 {
     public struct Coordinate
     {
@@ -35,6 +37,8 @@
         public void SetMines(Coordinate coordinate) 
             => _matrix[coordinate.X, coordinate.Y] = new Cell('*');
         
-        
+        public override bool Equals(object other) => CellAsString().Equals((other as Matrix)?.CellAsString());
+        private string CellAsString() => string.Concat(_matrix.OfType<Cell>().Select(c => c.Value));
+        public override int GetHashCode() => CellAsString().GetHashCode();
     }
 }
